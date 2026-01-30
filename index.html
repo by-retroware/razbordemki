@@ -30,6 +30,7 @@
             
             --rcoin-color: #FF6B6B;
             --rub-color: #4ECDC4;
+            --telegram-color: #2AABEE;
         }
         
         * {
@@ -510,6 +511,66 @@
         
         input::placeholder, textarea::placeholder, select::placeholder {
             color: #aaa;
+        }
+        
+        /* Стиль для поля Telegram */
+        .telegram-input {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        body.dark-theme .telegram-input {
+            border-color: var(--border-dark);
+        }
+        
+        .telegram-prefix {
+            background: rgba(42, 171, 238, 0.1);
+            padding: 12px 15px;
+            font-weight: 600;
+            color: var(--telegram-color);
+            border-right: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+        }
+        
+        body.dark-theme .telegram-prefix {
+            background: rgba(42, 171, 238, 0.2);
+            border-right-color: var(--border-dark);
+        }
+        
+        .telegram-input input {
+            border: none;
+            flex: 1;
+            padding-left: 10px;
+        }
+        
+        .telegram-input input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        
+        .telegram-input:focus-within {
+            border-color: var(--telegram-color);
+            box-shadow: 0 0 0 3px rgba(42, 171, 238, 0.2);
+        }
+        
+        body.dark-theme .telegram-input:focus-within {
+            border-color: var(--telegram-color);
+            box-shadow: 0 0 0 3px rgba(42, 171, 238, 0.3);
+        }
+        
+        .telegram-hint {
+            font-size: 12px;
+            color: var(--telegram-color);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         .date-input {
@@ -1135,6 +1196,29 @@
             background: #5865F2;
         }
         
+        .bot-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--telegram-color) 0%, #229ED9 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .bot-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(42, 171, 238, 0.3);
+        }
+        
         .support-link {
             color: var(--text-light);
             text-decoration: none;
@@ -1286,9 +1370,285 @@
                 padding-bottom: 0;
             }
         }
+        
+        /* Telegram чат-виджет */
+        #telegramChatButton {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 25px rgba(42, 171, 238, 0.5);
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        #telegramChatButton:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(42, 171, 238, 0.7);
+        }
+        
+        #telegramChatButton .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        
+        #telegramChatWidget {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 9997;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        body.dark-theme #telegramChatWidget {
+            background: var(--card-dark);
+            border: 1px solid var(--border-dark);
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
+            padding: 15px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: var(--card-light);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        body.dark-theme .chat-messages {
+            background: var(--bg-dark);
+        }
+        
+        .chat-message {
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        
+        .message-user {
+            background: #2AABEE;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-admin {
+            background: var(--secondary-light);
+            color: var(--text-light);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        body.dark-theme .message-admin {
+            background: var(--card-dark);
+            color: var(--text-dark);
+        }
+        
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            gap: 10px;
+        }
+        
+        body.dark-theme .chat-input-area {
+            border-top-color: var(--border-dark);
+        }
+        
+        #telegramMessageInput {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            background: var(--card-light);
+            color: var(--text-light);
+        }
+        
+        body.dark-theme #telegramMessageInput {
+            background: var(--card-dark);
+            color: var(--text-dark);
+            border-color: var(--border-dark);
+        }
+        
+        #sendTelegramMessage {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2AABEE;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #sendTelegramMessage:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .chat-typing {
+            padding: 0 15px 10px;
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+            display: none;
+        }
+        
+        .message-time {
+            font-size: 10px;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .message-user .message-time {
+            text-align: right;
+        }
+        
+        .message-admin .message-time {
+            text-align: left;
+        }
+        
+        .chat-cooldown {
+            padding: 5px 15px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--accent-red);
+            background: rgba(255, 71, 87, 0.1);
+            display: none;
+        }
+        
+        /* Уведомление об успешной отправке */
+        .success-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #8BC34A, #689F38);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: slideInRight 0.3s ease;
+        }
+        
+        body.dark-theme .success-notification {
+            background: linear-gradient(135deg, #00FF9D, #00CC7A);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Кнопка чата Telegram -->
+    <button id="telegramChatButton">
+        <i class="fab fa-telegram-plane"></i>
+        <span id="telegramNotification" class="notification-badge" style="display: none;">0</span>
+    </button>
+
+    <!-- Чат Telegram -->
+    <div id="telegramChatWidget">
+        <div class="chat-header">
+            <span>💬 Поддержка Telegram</span>
+            <button id="closeTelegramChat">&times;</button>
+        </div>
+        
+        <div class="chat-messages" id="telegramMessages">
+            <div class="chat-message message-admin">
+                <div>👋 Привет! Я твой бот-помощник</div>
+                <div class="message-time">Только что</div>
+            </div>
+            <div class="chat-message message-admin">
+                <div>Напиши свой вопрос, и я перешлю его админу @vipkotax</div>
+                <div class="message-time">Только что</div>
+            </div>
+        </div>
+        
+        <div class="chat-cooldown" id="telegramCooldown">
+            <i class="fas fa-clock"></i> Следующее сообщение можно отправить через: <span id="telegramCooldownTimer">20</span> сек
+        </div>
+        
+        <div class="chat-typing" id="telegramTyping">Админ печатает...</div>
+        
+        <div class="chat-input-area">
+            <input type="text" id="telegramMessageInput" placeholder="Введите сообщение...">
+            <button id="sendTelegramMessage">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Уведомление об успешной отправке -->
+    <div class="success-notification" id="successNotification">
+        <i class="fas fa-check-circle"></i>
+        <div>
+            <strong>✅ Отправлено!</strong>
+            <div id="successMessage">Ваш запрос отправлен админу</div>
+        </div>
+    </div>
+
     <!-- Модальное окно подписок -->
     <div id="subscriptionModal" class="modal">
         <div class="modal-content">
@@ -1561,6 +1921,10 @@
                         <div class="support-link">diegoretrowave</div>
                     </div>
                 </div>
+                
+                <button class="bot-btn" id="telegramBotBtn">
+                    <i class="fab fa-telegram"></i> Открыть Telegram бота для ответов
+                </button>
             </div>
             
             <div style="margin-top: 30px; padding: 20px; background: rgba(139, 195, 74, 0.1); border-radius: 8px;">
@@ -1762,6 +2126,22 @@
                             <div class="error-message" id="lastNameError">Пожалуйста, введите вашу фамилию (только английские символы)</div>
                         </div>
                         
+                        <!-- ПОЛЕ TELEGRAM ЮЗЕРНЕЙМА -->
+                        <div class="form-group">
+                            <label for="telegramUsername">Telegram юзернейм <span class="required">*</span></label>
+                            <div class="telegram-input">
+                                <span class="telegram-prefix">@</span>
+                                <input type="text" id="telegramUsername" name="telegramUsername" 
+                                       placeholder="vipkotax" required>
+                            </div>
+                            <div class="telegram-hint">
+                                <i class="fas fa-info-circle"></i> Бот будет отправлять ответы на этот юзернейм
+                            </div>
+                            <div class="error-message" id="telegramUsernameError">
+                                Пожалуйста, введите ваш Telegram юзернейм (без @)
+                            </div>
+                        </div>
+                        
                         <div class="form-group">
                             <label for="birthYear">Дата рождения <span class="required">*</span></label>
                             <div class="date-input">
@@ -1854,11 +2234,27 @@
     </div>
 
     <script>
-        // Инициализация приложения
+        // ========== КОНФИГУРАЦИЯ TELEGRAM БОТА ==========
+        const TELEGRAM_CONFIG = {
+            BOT_TOKEN: "8593494297:AAEPNBHk3kdH47NUskQlt5VDI0owszxlvd8",
+            ADMIN_CHAT_ID: "5695593671",
+            API_URL: "https://api.telegram.org/bot",
+            BOT_USERNAME: "@RetrowareSupportBot"
+        };
+        
+        // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
+        let telegramChatOpen = false;
+        let telegramMessages = [];
+        let telegramTypingTimeout = null;
+        let telegramCooldownEnd = 0;
+        let telegramCooldownInterval = null;
+        let uploadedFiles = [];
+        const MAX_FILES = 2;
+        
+        // ========== ОСНОВНОЙ КОД ПРИЛОЖЕНИЯ ==========
         document.addEventListener('DOMContentLoaded', function() {
             // Функция для форматирования чисел с разделителями
             function formatNumber(number) {
-                // Разделяем тысячи запятыми
                 return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
             
@@ -1878,6 +2274,12 @@
                 localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
             });
             
+            // Кнопка открытия бота
+            document.getElementById('telegramBotBtn').addEventListener('click', function() {
+                alert("📱 Откройте Telegram и перейдите к боту: " + TELEGRAM_CONFIG.BOT_USERNAME);
+                window.open('https://t.me/' + TELEGRAM_CONFIG.BOT_USERNAME.replace('@', ''), '_blank');
+            });
+            
             // Инициализация выпадающих списков для даты
             const birthDaySelect = document.getElementById('birthDay');
             for (let day = 1; day <= 31; day++) {
@@ -1887,7 +2289,6 @@
                 birthDaySelect.appendChild(option);
             }
             
-            // Заполнение годов (1900-текущий год)
             const birthYearSelect = document.getElementById('birthYear');
             const currentYear = new Date().getFullYear();
             for (let year = currentYear; year >= 1900; year--) {
@@ -1897,24 +2298,22 @@
                 birthYearSelect.appendChild(option);
             }
             
-            // Установка текущего года по умолчанию (2000)
             birthYearSelect.value = 2000;
             birthDaySelect.value = 1;
             document.getElementById('birthMonth').value = '1';
             
-            // Обновление текста просьбы при изменении имени/фамилии
+            // Обновление текста просьбы
             const firstNameInput = document.getElementById('firstName');
             const lastNameInput = document.getElementById('lastName');
-            const requestText = document.getElementById('requestText');
             
             function updateRequestText() {
                 const firstName = firstNameInput.value.trim();
                 const lastName = lastNameInput.value.trim();
                 
                 if (firstName || lastName) {
-                    requestText.placeholder = `Я (${firstName} ${lastName}) прошу разобрать данный мем/ситуацию.`;
+                    document.getElementById('requestText').placeholder = `Я (${firstName} ${lastName}) прошу разобрать данный мем/ситуацию.`;
                 } else {
-                    requestText.placeholder = ' ';
+                    document.getElementById('requestText').placeholder = ' ';
                 }
             }
             
@@ -1926,14 +2325,16 @@
                 return /^[a-zA-Z\s]+$/.test(name);
             }
             
+            // Валидация Telegram юзернейма
+            function validateTelegramUsername(username) {
+                return /^[a-zA-Z0-9_]{5,32}$/.test(username);
+            }
+            
             // Обработка загрузки медиафайлов
             const mediaContainer = document.getElementById('mediaContainer');
             const mediaFileInput = document.getElementById('mediaFile');
             const filePreviews = document.getElementById('filePreviews');
             const uploadBtn = document.getElementById('uploadBtn');
-            
-            let uploadedFiles = [];
-            const MAX_FILES = 2;
             
             uploadBtn.addEventListener('click', function() {
                 mediaFileInput.click();
@@ -1944,7 +2345,6 @@
                 handleMediaFiles(files);
             });
             
-            // Функция для обработки медиафайлов
             function handleMediaFiles(files) {
                 if (uploadedFiles.length + files.length > MAX_FILES) {
                     alert(`Можно загрузить максимум ${MAX_FILES} файла(ов). У вас уже загружено: ${uploadedFiles.length}`);
@@ -1962,14 +2362,12 @@
                     createFilePreview(file);
                 });
                 
-                // Обновление иконки
                 if (uploadedFiles.length > 0) {
                     mediaContainer.querySelector('.media-icon').textContent = '📎';
                     mediaContainer.querySelector('.media-placeholder').textContent = `Загружено файлов: ${uploadedFiles.length}/${MAX_FILES}`;
                 }
             }
             
-            // Создание превью файла
             function createFilePreview(file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -1992,13 +2390,11 @@
                     
                     filePreviews.appendChild(preview);
                     
-                    // Обработчик удаления файла
                     preview.querySelector('.remove-file').addEventListener('click', function() {
                         const filename = this.getAttribute('data-filename');
                         uploadedFiles = uploadedFiles.filter(f => f.name !== filename);
                         preview.remove();
                         
-                        // Обновление иконки
                         if (uploadedFiles.length === 0) {
                             mediaContainer.querySelector('.media-icon').textContent = '📁';
                             mediaContainer.querySelector('.media-placeholder').textContent = 'Перетащите сюда фото или видео, либо нажмите кнопку';
@@ -2007,11 +2403,10 @@
                         }
                     });
                 };
-                
                 reader.readAsDataURL(file);
             }
             
-            // Drag and drop для медиафайлов
+            // Drag and drop
             mediaContainer.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 mediaContainer.classList.add('drag-over');
@@ -2024,12 +2419,11 @@
             mediaContainer.addEventListener('drop', function(e) {
                 e.preventDefault();
                 mediaContainer.classList.remove('drag-over');
-                
                 const files = Array.from(e.dataTransfer.files);
                 handleMediaFiles(files);
             });
             
-            // Блокировка поля требований для не-VIP пользователей
+            // Блокировка поля требований
             const requirementsField = document.getElementById('requirements');
             const vipLock = document.getElementById('vipLock');
             const vipMessage = document.getElementById('vipMessage');
@@ -2058,27 +2452,36 @@
             const requiredFields = [
                 {id: 'firstName', errorId: 'firstNameError'},
                 {id: 'lastName', errorId: 'lastNameError'},
+                {id: 'telegramUsername', errorId: 'telegramUsernameError'},
                 {id: 'requestText', errorId: 'requestTextError'}
             ];
             
             function validateForm() {
                 let isValid = true;
                 
-                // Проверка обязательных текстовых полей
                 requiredFields.forEach(field => {
                     const input = document.getElementById(field.id);
                     const error = document.getElementById(field.errorId);
                     
                     if (!input.value.trim()) {
                         error.style.display = 'block';
-                        error.textContent = field.id === 'firstName' || field.id === 'lastName' 
-                            ? 'Пожалуйста, введите ваше ' + (field.id === 'firstName' ? 'имя' : 'фамилию') + ' (только английские символы)' 
-                            : 'Пожалуйста, напишите вашу просьбу';
+                        if (field.id === 'telegramUsername') {
+                            error.textContent = 'Пожалуйста, введите ваш Telegram юзернейм (без @)';
+                        } else if (field.id === 'firstName' || field.id === 'lastName') {
+                            error.textContent = 'Пожалуйста, введите ваше ' + (field.id === 'firstName' ? 'имя' : 'фамилию') + ' (только английские символы)';
+                        } else {
+                            error.textContent = 'Пожалуйста, напишите вашу просьбу';
+                        }
                         input.style.borderColor = 'var(--accent-red)';
                         isValid = false;
                     } else if ((field.id === 'firstName' || field.id === 'lastName') && !validateEnglishName(input.value.trim())) {
                         error.style.display = 'block';
                         error.textContent = 'Пожалуйста, используйте только английские символы (A-Z, a-z)';
+                        input.style.borderColor = 'var(--accent-red)';
+                        isValid = false;
+                    } else if (field.id === 'telegramUsername' && !validateTelegramUsername(input.value.trim())) {
+                        error.style.display = 'block';
+                        error.textContent = 'Пожалуйста, введите корректный Telegram юзернейм (только буквы, цифры и подчеркивание, 5-32 символа)';
                         input.style.borderColor = 'var(--accent-red)';
                         isValid = false;
                     } else {
@@ -2087,7 +2490,6 @@
                     }
                 });
                 
-                // Проверка даты рождения
                 const birthDay = document.getElementById('birthDay').value;
                 const birthMonth = document.getElementById('birthMonth').value;
                 const birthYear = document.getElementById('birthYear').value;
@@ -2104,13 +2506,11 @@
                     });
                 }
                 
-                // Проверка кулдауна
                 const user = getUserData();
                 if (user && user.cooldownUntil && user.cooldownUntil > Date.now()) {
                     isValid = false;
                 }
                 
-                // Проверка лимита мемов
                 if (user && user.isLoggedIn) {
                     const memesToday = parseInt(document.getElementById('memesToday').textContent);
                     const memesLimit = parseInt(document.getElementById('memesLimit').textContent);
@@ -2120,13 +2520,11 @@
                     }
                 }
                 
-                // Активация/деактивация кнопки отправки
                 submitFormBtn.disabled = !isValid;
                 
                 return isValid;
             }
             
-            // Слушатели событий для валидации
             form.addEventListener('input', validateForm);
             form.addEventListener('change', validateForm);
             
@@ -2152,7 +2550,6 @@
             const closeAuthModal = document.getElementById('closeAuthModal');
             const closeConfirmModal = document.getElementById('closeConfirmModal');
             
-            // Обработчики открытия модальных окон
             subscribeBtn.addEventListener('click', function() {
                 subscriptionModal.style.display = 'flex';
             });
@@ -2170,7 +2567,6 @@
                 supportModal.style.display = 'flex';
             });
             
-            // Обработчики закрытия модальных окон
             closeSubscriptionModal.addEventListener('click', function() {
                 subscriptionModal.style.display = 'none';
             });
@@ -2199,32 +2595,17 @@
                 confirmModal.style.display = 'none';
             });
             
-            // Закрытие модальных окон при клике вне их
             window.addEventListener('click', function(e) {
-                if (e.target === subscriptionModal) {
-                    subscriptionModal.style.display = 'none';
-                }
-                if (e.target === paymentModal) {
-                    paymentModal.style.display = 'none';
-                }
-                if (e.target === clickerModal) {
-                    clickerModal.style.display = 'none';
-                }
-                if (e.target === infoModal) {
-                    infoModal.style.display = 'none';
-                }
-                if (e.target === supportModal) {
-                    supportModal.style.display = 'none';
-                }
-                if (e.target === authModal) {
-                    authModal.style.display = 'none';
-                }
-                if (e.target === confirmModal) {
-                    confirmModal.style.display = 'none';
-                }
+                if (e.target === subscriptionModal) subscriptionModal.style.display = 'none';
+                if (e.target === paymentModal) paymentModal.style.display = 'none';
+                if (e.target === clickerModal) clickerModal.style.display = 'none';
+                if (e.target === infoModal) infoModal.style.display = 'none';
+                if (e.target === supportModal) supportModal.style.display = 'none';
+                if (e.target === authModal) authModal.style.display = 'none';
+                if (e.target === confirmModal) confirmModal.style.display = 'none';
             });
             
-            // Баланс - монетка с двумя сторонами
+            // Баланс - монетка
             const headerBalanceCoin = document.getElementById('headerBalanceCoin');
             const clickerBalanceCoin = document.getElementById('clickerBalanceCoin');
             const balanceDisplay = document.getElementById('balanceDisplay');
@@ -2235,17 +2616,14 @@
             let currentBalance = 0;
             let rubBalance = 0;
             
-            // Функция для переключения баланса
             function toggleBalance() {
                 isBalanceFlipped = !isBalanceFlipped;
                 
-                // Анимация переворота
                 const coins = document.querySelectorAll('.balance-coin');
                 coins.forEach(coin => {
                     coin.classList.toggle('flipped');
                 });
                 
-                // Обновление отображения
                 if (isBalanceFlipped) {
                     balanceDisplay.classList.add('rub');
                     balanceValue.textContent = rubBalance.toLocaleString();
@@ -2257,7 +2635,6 @@
                 }
             }
             
-            // Обработчики клика на монетку
             headerBalanceCoin.addEventListener('click', toggleBalance);
             if (clickerBalanceCoin) {
                 clickerBalanceCoin.addEventListener('click', toggleBalance);
@@ -2279,7 +2656,6 @@
             const clicksLimitElement = document.getElementById('clicksLimit');
             const clicksPerSecondElement = document.getElementById('clicksPerSecond');
             
-            // Загрузка сохраненных данных кликера
             function loadClickerData() {
                 const user = getUserData();
                 if (user) {
@@ -2290,7 +2666,6 @@
                     autoClickerWarnings = user.autoClickerWarnings || 0;
                     autoClickerBannedUntil = user.autoClickerBannedUntil || 0;
                     
-                    // Проверка бана автокликера
                     if (autoClickerBannedUntil > Date.now()) {
                         const timeLeft = Math.ceil((autoClickerBannedUntil - Date.now()) / 1000 / 60);
                         alert(`Автокликер забанен. Осталось: ${timeLeft} минут`);
@@ -2300,23 +2675,19 @@
                 }
             }
             
-            // Обновление отображения кликера
             function updateCoinDisplay() {
                 coinCountElement.textContent = rcoins.toLocaleString();
                 clicksCountElement.textContent = clicks.toLocaleString();
                 clicksLimitElement.textContent = CLICK_LIMIT.toLocaleString();
                 clicksPerSecondElement.textContent = clicksPerSecond.toFixed(1);
                 
-                // Обновление основного баланса
                 currentBalance = rcoins;
                 if (!isBalanceFlipped) {
                     balanceValue.textContent = currentBalance.toLocaleString();
                 }
                 
-                // Показ/скрытие отображения баланса в шапке
                 balanceDisplay.style.display = 'flex';
                 
-                // Сохранение данных
                 const user = getUserData();
                 if (user) {
                     user.rcoins = rcoins;
@@ -2328,29 +2699,22 @@
                 }
             }
             
-            // Проверка автокликера
             function checkAutoClicker() {
                 const now = Date.now();
-                clickTimes = clickTimes.filter(time => now - time < 60000); // Только последняя минута
+                clickTimes = clickTimes.filter(time => now - time < 60000);
                 
-                // Если больше 800 кликов в минуту - это автокликер
                 if (clickTimes.length > 800) {
                     autoClickerWarnings++;
                     
                     if (autoClickerWarnings >= 3) {
-                        // Бан на 15 минут и штраф 50,000 Rcoins
                         autoClickerBannedUntil = Date.now() + 15 * 60 * 1000;
                         rcoins = Math.max(-50000, rcoins - 50000);
-                        
                         alert(`Обнаружен автокликер! Вы получили бан на 15 минут и штраф 50,000 Rcoins.`);
-                        
-                        // Сброс предупреждений
                         autoClickerWarnings = 0;
                     } else {
                         alert(`Внимание! Обнаружена подозрительная активность (автокликер). Предупреждение ${autoClickerWarnings}/3.`);
                     }
                     
-                    // Очистка истории кликов
                     clickTimes = [];
                     return true;
                 }
@@ -2358,22 +2722,18 @@
                 return false;
             }
             
-            // Обработка клика
             clickButton.addEventListener('click', function() {
-                // Проверка бана автокликера
                 if (autoClickerBannedUntil > Date.now()) {
                     const timeLeft = Math.ceil((autoClickerBannedUntil - Date.now()) / 1000 / 60);
                     alert(`Автокликер забанен. Осталось: ${timeLeft} минут`);
                     return;
                 }
                 
-                // Проверка лимита кликов
                 if (clicks >= CLICK_LIMIT) {
                     alert(`Достигнут лимит кликов (${CLICK_LIMIT.toLocaleString()}). Больше кликать нельзя.`);
                     return;
                 }
                 
-                // Проверка автокликера
                 const now = Date.now();
                 clickTimes.push(now);
                 
@@ -2381,7 +2741,6 @@
                     return;
                 }
                 
-                // Расчет кликов в секунду
                 if (lastClickTime) {
                     const timeDiff = (now - lastClickTime) / 1000;
                     if (timeDiff > 0) {
@@ -2390,18 +2749,13 @@
                 }
                 lastClickTime = now;
                 
-                // Начисление Rcoins и кликов
                 rcoins++;
                 clicks++;
                 
-                // Обновление отображения
                 updateCoinDisplay();
-                
-                // Создание анимации
                 createClickAnimation();
             });
             
-            // Создание анимации клика
             function createClickAnimation() {
                 const emojis = ['💰', '💎', '💸', '🏦'];
                 const emoji = emojis[Math.floor(Math.random() * emojis.length)];
@@ -2413,14 +2767,12 @@
                 floatingEmoji.style.pointerEvents = 'none';
                 floatingEmoji.style.zIndex = '1000';
                 
-                // Позиция около кнопки кликера
                 const buttonRect = clickButton.getBoundingClientRect();
                 floatingEmoji.style.left = (buttonRect.left + Math.random() * buttonRect.width) + 'px';
                 floatingEmoji.style.top = (buttonRect.top + buttonRect.height / 2) + 'px';
                 
                 document.body.appendChild(floatingEmoji);
                 
-                // Анимация
                 let opacity = 1;
                 let top = buttonRect.top;
                 const animation = setInterval(() => {
@@ -2448,7 +2800,6 @@
             
             function updateUserUI(user) {
                 if (user && user.isLoggedIn) {
-                    // Разблокировка поля требований для VIP
                     const userPlan = user.subscriptionType || 'standard';
                     if (userPlan === 'vip' || userPlan === 'premium' || userPlan === 'retroware') {
                         requirementsField.disabled = false;
@@ -2456,11 +2807,9 @@
                         vipLock.style.display = 'none';
                     }
                     
-                    // Показываем информацию о пользователе
                     document.getElementById('userStats').style.display = 'flex';
                     document.getElementById('subscriptionType').textContent = userPlan.charAt(0).toUpperCase() + userPlan.slice(1);
                     
-                    // Установка лимита мемов в зависимости от подписки
                     let memesLimit = 2;
                     if (userPlan === 'vip') memesLimit = 4;
                     if (userPlan === 'premium') memesLimit = 6;
@@ -2469,18 +2818,15 @@
                     document.getElementById('memesLimit').textContent = memesLimit;
                     user.memesLimit = memesLimit;
                     
-                    // Проверка лимита мемов
                     const memesToday = user.memesToday || 0;
                     document.getElementById('memesToday').textContent = memesToday;
                     
-                    // Показываем таймер сброса если лимит исчерпан
                     if (memesToday >= memesLimit) {
                         showResetTimer();
                     } else {
                         document.getElementById('resetTimerContainer').style.display = 'none';
                     }
                     
-                    // Дни до конца подписки
                     if (userPlan === 'standard') {
                         document.getElementById('daysLeft').textContent = '∞';
                     } else {
@@ -2489,7 +2835,6 @@
                         document.getElementById('daysLeft').textContent = daysLeft > 0 ? daysLeft : 0;
                     }
                     
-                    // Обновляем кнопку авторизации
                     const authContainer = document.getElementById('authContainer');
                     authContainer.innerHTML = `
                         <div class="user-info">
@@ -2501,13 +2846,13 @@
                         </div>
                     `;
                     
-                    // Добавляем обработчик выхода
                     document.getElementById('logoutBtn').addEventListener('click', logoutUser);
                     
-                    // Проверяем кулдаун
                     checkCooldown();
+                    
+                    // Запускаем систему чата
+                    initTelegramChat(user);
                 } else {
-                    // Показываем кнопку входа
                     const authContainer = document.getElementById('authContainer');
                     authContainer.innerHTML = `
                         <button class="auth-btn" id="authLoginBtn">
@@ -2522,11 +2867,9 @@
                 }
             }
             
-            // Показать модальное окно авторизации
             function showAuthModal() {
                 authModal.style.display = 'flex';
                 
-                // Обработчики для модального окна авторизации
                 document.getElementById('cancelLogin').addEventListener('click', function() {
                     authModal.style.display = 'none';
                 });
@@ -2536,7 +2879,6 @@
                     const password = document.getElementById('loginPassword').value.trim();
                     
                     if (username && password) {
-                        // Создаем пользователя
                         const user = {
                             isLoggedIn: true,
                             id: 'user_' + Math.random().toString(36).substr(2, 9),
@@ -2545,10 +2887,10 @@
                             memesLimit: 2,
                             memesToday: 0,
                             warnings: 0,
-                            rcoins: 1000, // Начальные Rcoins
+                            rcoins: 1000,
                             rubBalance: 0,
                             clicks: 0,
-                            subscriptionEndDate: null, // Для standard подписки нет срока
+                            subscriptionEndDate: null,
                             lastSubmissionDate: new Date().toDateString(),
                             lastResetDate: getResetDate()
                         };
@@ -2573,7 +2915,6 @@
                 alert('Вы вышли из системы.');
             }
             
-            // Проверяем сброс счетчика мемов на новый день
             function resetDailyCounterIfNeeded(user) {
                 const now = new Date();
                 const resetDate = getResetDate();
@@ -2586,13 +2927,11 @@
                 return user;
             }
             
-            // Получить дату сброса (12:00)
             function getResetDate() {
                 const now = new Date();
                 const resetTime = new Date(now);
                 resetTime.setHours(12, 0, 0, 0);
                 
-                // Если уже прошло 12:00 сегодня, следующий сброс завтра
                 if (now > resetTime) {
                     resetTime.setDate(resetTime.getDate() + 1);
                 }
@@ -2600,20 +2939,17 @@
                 return resetTime.toDateString();
             }
             
-            // Показать таймер сброса
             function showResetTimer() {
                 const resetTimerContainer = document.getElementById('resetTimerContainer');
                 const resetTimer = document.getElementById('resetTimer');
                 
                 resetTimerContainer.style.display = 'block';
                 
-                // Обновление таймера каждую секунду
                 function updateTimer() {
                     const now = new Date();
                     const resetTime = new Date();
                     resetTime.setHours(12, 0, 0, 0);
                     
-                    // Если уже прошло 12:00 сегодня, следующий сброс завтра
                     if (now > resetTime) {
                         resetTime.setDate(resetTime.getDate() + 1);
                     }
@@ -2630,11 +2966,10 @@
                 setInterval(updateTimer, 1000);
             }
             
-            // Кулдаун отправки (10 минут)
             function startCooldown() {
                 const user = getUserData();
                 if (user) {
-                    user.cooldownUntil = Date.now() + 10 * 60 * 1000; // 10 минут
+                    user.cooldownUntil = Date.now() + 10 * 60 * 1000;
                     saveUserData(user);
                     checkCooldown();
                 }
@@ -2650,7 +2985,6 @@
                     cooldownContainer.style.display = 'block';
                     submitFormBtn.disabled = true;
                     
-                    // Обновление таймера кулдауна
                     function updateCooldown() {
                         const now = Date.now();
                         const diff = user.cooldownUntil - now;
@@ -2680,32 +3014,28 @@
                 }
             }
             
-            // Система подписок - ИСПРАВЛЕННЫЕ ЦЕНЫ
+            // Система подписок
             const selectPlanButtons = document.querySelectorAll('.select-plan-btn');
             let selectedPlan = null;
             
-            // Цены подписок в Rcoins - ИСПРАВЛЕНО
             const planRcoinPrices = {
-                'vip': 700000,      // 700,000 Rcoins
-                'premium': 1400000, // 1,400,000 Rcoins
-                'retroware': 1650000 // 1,650,000 Rcoins
+                'vip': 700000,
+                'premium': 1400000,
+                'retroware': 1650000
             };
             
-            // Цены подписок в рублях - ИСПРАВЛЕНО
             const planRubPrices = {
-                'vip': 499,      // 499₽
-                'premium': 999,  // 999₽
-                'retroware': 99  // 99₽ (ИЗМЕНЕНО с 1499)
+                'vip': 499,
+                'premium': 999,
+                'retroware': 99
             };
             
-            // Иконки планов
             const planIcons = {
                 'vip': '👑',
                 'premium': '💎',
                 'retroware': '🚀'
             };
             
-            // Обработка выбора плана подписки
             selectPlanButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const plan = this.getAttribute('data-plan');
@@ -2723,30 +3053,21 @@
                     
                     selectedPlan = plan;
                     
-                    // Обновляем информацию в модальном окне оплаты
-                    document.getElementById('selectedPlanName').textContent = 
-                        plan.charAt(0).toUpperCase() + plan.slice(1);
-                    document.getElementById('paymentPlanTitle').textContent = 
-                        plan.charAt(0).toUpperCase() + plan.slice(1);
-                    document.getElementById('paymentPlanIcon').textContent = 
-                        planIcons[plan] || '👑';
-                    document.getElementById('rcoinPrice').textContent = 
-                        formatNumber(planRcoinPrices[plan]); // Используем форматирование
-                    document.getElementById('rubPrice').textContent = 
-                        planRubPrices[plan] + '₽';
+                    document.getElementById('selectedPlanName').textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
+                    document.getElementById('paymentPlanTitle').textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
+                    document.getElementById('paymentPlanIcon').textContent = planIcons[plan] || '👑';
+                    document.getElementById('rcoinPrice').textContent = formatNumber(planRcoinPrices[plan]);
+                    document.getElementById('rubPrice').textContent = planRubPrices[plan] + '₽';
                     
-                    // Сбрасываем выбор способа оплаты
                     document.querySelectorAll('.payment-option').forEach(option => {
                         option.classList.remove('selected');
                     });
                     
-                    // Закрываем модальное окно подписок и открываем оплату
                     subscriptionModal.style.display = 'none';
                     paymentModal.style.display = 'flex';
                 });
             });
             
-            // Выбор способа оплаты
             const rcoinOption = document.getElementById('rcoinOption');
             const rubOption = document.getElementById('rubOption');
             let selectedPaymentMethod = null;
@@ -2767,7 +3088,6 @@
                 selectedPaymentMethod = 'rub';
             });
             
-            // Подтверждение оплаты
             document.getElementById('cancelPayment').addEventListener('click', function() {
                 paymentModal.style.display = 'none';
                 selectedPlan = null;
@@ -2787,7 +3107,6 @@
                 }
                 
                 if (selectedPaymentMethod === 'rcoins') {
-                    // Оплата Rcoins
                     const rcoinPrice = planRcoinPrices[selectedPlan];
                     
                     if (user.rcoins < rcoinPrice) {
@@ -2798,26 +3117,19 @@
                     if (confirm(`Списать ${formatNumber(rcoinPrice)} Rcoins для покупки подписки ${selectedPlan.toUpperCase()}?`)) {
                         user.rcoins -= rcoinPrice;
                         user.subscriptionType = selectedPlan;
-                        
-                        // Установка срока подписки (30 дней)
                         user.subscriptionEndDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-                        
-                        // Обновление лимитов
                         updateUserSubscriptionLimits(user);
-                        
                         saveUserData(user);
                         updateUserUI(user);
                         updateCoinDisplay();
                         
-                        alert(`Поздравляем! Вы успешно приобрели подписку ${selectedPlan.toUpperCase()}!`);
+                        alert(`Поздравляем! Вы успешно приобрели подписки ${selectedPlan.toUpperCase()}!`);
                         paymentModal.style.display = 'none';
                         selectedPlan = null;
                         selectedPaymentMethod = null;
                     }
                 } else {
-                    // Оплата рублями
                     const rubPrice = planRubPrices[selectedPlan];
-                    
                     alert(`Для оплаты подписки ${selectedPlan.toUpperCase()} на сумму ${rubPrice}₽ свяжитесь с @vipkotax в Telegram для получения реквизитов.`);
                     paymentModal.style.display = 'none';
                     selectedPlan = null;
@@ -2825,7 +3137,6 @@
                 }
             });
             
-            // Обновление лимитов подписки
             function updateUserSubscriptionLimits(user) {
                 const plan = user.subscriptionType || 'standard';
                 
@@ -2838,21 +3149,20 @@
                 return user;
             }
             
-            // Обработка отправки формы
+            // ========== ОТПРАВКА ФОРМЫ С ФОТОГРАФИЯМИ ==========
+            
             submitFormBtn.addEventListener('click', function() {
                 if (!validateForm()) {
                     alert('Пожалуйста, заполните все обязательные поля перед отправкой формы.');
                     return;
                 }
                 
-                // Проверка кулдауна
                 const user = getUserData();
                 if (user && user.cooldownUntil && user.cooldownUntil > Date.now()) {
                     alert('Пожалуйста, подождите перед следующей отправкой.');
                     return;
                 }
                 
-                // Проверка лимита мемов
                 if (user && user.isLoggedIn) {
                     const memesToday = user.memesToday || 0;
                     const memesLimit = user.memesLimit || 2;
@@ -2863,15 +3173,13 @@
                     }
                 }
                 
-                // Показываем модальное окно подтверждения
                 confirmModal.style.display = 'flex';
                 
-                // Обработчики для модального окна подтверждения
                 document.getElementById('cancelConfirm').addEventListener('click', function() {
                     confirmModal.style.display = 'none';
                 });
                 
-                document.getElementById('confirmSubmit').addEventListener('click', function() {
+                document.getElementById('confirmSubmit').addEventListener('click', async function() {
                     const confirmCheckbox = document.getElementById('confirmCheckbox');
                     
                     if (!confirmCheckbox.checked) {
@@ -2879,57 +3187,496 @@
                         return;
                     }
                     
-                    // Обновляем счетчик отправленных мемов
-                    const user = getUserData();
-                    if (user && user.isLoggedIn) {
-                        const memesTodayElement = document.getElementById('memesToday');
-                        let memesToday = parseInt(memesTodayElement.textContent);
-                        memesToday++;
-                        memesTodayElement.textContent = memesToday;
+                    // Показываем индикатор загрузки
+                    const submitBtn = document.getElementById('confirmSubmit');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+                    submitBtn.disabled = true;
+                    
+                    // Отправляем данные в Telegram
+                    const success = await sendToTelegramAdmin();
+                    
+                    // Восстанавливаем кнопку
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    
+                    if (success) {
+                        showSuccessNotification("✅ Ваш запрос и файлы отправлены! Ответ придет в Telegram");
                         
-                        // Сохраняем обновленные данные
-                        user.memesToday = memesToday;
-                        user.lastSubmissionDate = new Date().toDateString();
-                        saveUserData(user);
+                        const user = getUserData();
+                        if (user && user.isLoggedIn) {
+                            const memesTodayElement = document.getElementById('memesToday');
+                            let memesToday = parseInt(memesTodayElement.textContent);
+                            memesToday++;
+                            memesTodayElement.textContent = memesToday;
+                            
+                            user.memesToday = memesToday;
+                            user.lastSubmissionDate = new Date().toDateString();
+                            saveUserData(user);
+                            
+                            startCooldown();
+                        }
                         
-                        // Запускаем кулдаун
-                        startCooldown();
+                        // Очищаем форму
+                        form.reset();
+                        uploadedFiles = [];
+                        filePreviews.innerHTML = '';
+                        mediaContainer.querySelector('.media-icon').textContent = '📁';
+                        mediaContainer.querySelector('.media-placeholder').textContent = 'Перетащите сюда фото или видео, либо нажмите кнопку';
+                        submitFormBtn.disabled = true;
+                        confirmCheckbox.checked = false;
+                        
+                        birthYearSelect.value = 2000;
+                        birthDaySelect.value = 1;
+                        document.getElementById('birthMonth').value = '1';
                     }
                     
-                    // Сбор данных формы
-                    const formData = {
-                        firstName: document.getElementById('firstName').value.trim(),
-                        lastName: document.getElementById('lastName').value.trim(),
-                        birthDate: `${document.getElementById('birthDay').value}.${document.getElementById('birthMonth').value}.${document.getElementById('birthYear').value}`,
-                        requestText: document.getElementById('requestText').value.trim(),
-                        requirements: document.getElementById('requirements').value.trim(),
-                        files: uploadedFiles.map(f => f.name)
-                    };
-                    
-                    // В реальном приложении здесь был бы AJAX запрос на сервер
-                    alert(`Форма успешно отправлена!\n\nДанные:\nИмя: ${formData.firstName}\nФамилия: ${formData.lastName}\nДата рождения: ${formData.birthDate}\nФайлы: ${formData.files.length > 0 ? formData.files.join(', ') : 'Не загружено'}`);
-                    
-                    // Сброс формы
-                    form.reset();
-                    uploadedFiles = [];
-                    filePreviews.innerHTML = '';
-                    mediaContainer.querySelector('.media-icon').textContent = '📁';
-                    mediaContainer.querySelector('.media-placeholder').textContent = 'Перетащите сюда фото или видео, либо нажмите кнопку';
-                    submitFormBtn.disabled = true;
-                    confirmCheckbox.checked = false;
-                    
-                    // Сброс даты
-                    birthYearSelect.value = 2000;
-                    birthDaySelect.value = 1;
-                    document.getElementById('birthMonth').value = '1';
-                    
-                    // Закрытие модального окна
                     confirmModal.style.display = 'none';
-                    
-                    // Проверка лимита
                     validateForm();
                 });
             });
+            
+            // Функция показа уведомления об успехе
+            function showSuccessNotification(message) {
+                const notification = document.getElementById('successNotification');
+                const messageElement = document.getElementById('successMessage');
+                
+                messageElement.textContent = message;
+                notification.style.display = 'flex';
+                
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 5000);
+            }
+            
+            // ========== ОТПРАВКА ФОТОГРАФИЙ В TELEGRAM ==========
+            
+            async function sendToTelegramAdmin() {
+                if (!TELEGRAM_CONFIG.BOT_TOKEN || !TELEGRAM_CONFIG.ADMIN_CHAT_ID) {
+                    console.warn('Токен бота или chat_id не настроены!');
+                    showSuccessNotification("⚠️ Токен бота не настроен! Запрос не отправлен.");
+                    return false;
+                }
+                
+                const user = getUserData();
+                if (!user) {
+                    showSuccessNotification("⚠️ Пожалуйста, войдите в систему!");
+                    return false;
+                }
+                
+                const formData = {
+                    firstName: document.getElementById('firstName').value.trim(),
+                    lastName: document.getElementById('lastName').value.trim(),
+                    telegramUsername: document.getElementById('telegramUsername').value.trim(),
+                    birthDate: `${document.getElementById('birthDay').value}.${document.getElementById('birthMonth').value}.${document.getElementById('birthYear').value}`,
+                    requestText: document.getElementById('requestText').value.trim(),
+                    requirements: document.getElementById('requirements').value.trim(),
+                    filesCount: uploadedFiles.length
+                };
+                
+                try {
+                    // Формируем текстовое сообщение
+                    const message = `
+📋 НОВЫЙ АНАЛИЗ МЕМА
+
+👤 Пользователь: ${user.username} (${formData.firstName} ${formData.lastName})
+📱 Telegram: @${formData.telegramUsername}
+🆔 ID: ${user.id}
+🎂 Дата рождения: ${formData.birthDate}
+📝 Запрос: ${formData.requestText}
+📎 Файлов: ${formData.filesCount}
+${formData.requirements ? `🔧 Требования: ${formData.requirements}` : ''}
+🕐 Время: ${new Date().toLocaleString()}
+
+💬 Для ответа пользователю используйте команду:
+/reply_${user.id} ваш ответ здесь
+
+📱 Или напишите в Telegram: @${formData.telegramUsername}
+
+📸 Фотографии прикреплены ниже 👇
+                    `.trim();
+                    
+                    // Сначала отправляем текстовое сообщение
+                    const textUrl = `${TELEGRAM_CONFIG.API_URL}${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`;
+                    const textParams = new URLSearchParams({
+                        chat_id: TELEGRAM_CONFIG.ADMIN_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    });
+                    
+                    const textResponse = await fetch(`${textUrl}?${textParams}`);
+                    const textData = await textResponse.json();
+                    
+                    if (!textData.ok) {
+                        console.error('Ошибка отправки текста:', textData);
+                        showSuccessNotification("❌ Ошибка отправки текста.");
+                        return false;
+                    }
+                    
+                    // Если есть загруженные файлы - отправляем их
+                    if (uploadedFiles.length > 0) {
+                        for (const file of uploadedFiles) {
+                            const fileSent = await sendFileToTelegram(file, user, formData.telegramUsername);
+                            if (!fileSent) {
+                                console.error('Ошибка отправки файла:', file.name);
+                            }
+                            // Задержка между отправкой файлов (чтобы не было ограничений Telegram)
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                    }
+                    
+                    console.log('Запрос на анализ отправлен в Telegram');
+                    return true;
+                    
+                } catch (error) {
+                    console.error('Ошибка сети:', error);
+                    showSuccessNotification("❌ Ошибка сети. Проверьте интернет.");
+                    return false;
+                }
+            }
+            
+            // Функция для отправки файлов в Telegram
+            async function sendFileToTelegram(file, user, telegramUsername) {
+                try {
+                    const formData = new FormData();
+                    formData.append('chat_id', TELEGRAM_CONFIG.ADMIN_CHAT_ID);
+                    formData.append('caption', `📸 Фото от: @${telegramUsername}\n👤 Пользователь: ${user.username}\n📁 Файл: ${file.name}\n🆔 ID: ${user.id}`);
+                    
+                    // Определяем тип файла
+                    let method, fileField;
+                    if (file.type.startsWith('image/')) {
+                        fileField = 'photo';
+                        method = 'sendPhoto';
+                    } else if (file.type.startsWith('video/')) {
+                        fileField = 'video';
+                        method = 'sendVideo';
+                    } else {
+                        fileField = 'document';
+                        method = 'sendDocument';
+                    }
+                    
+                    formData.append(fileField, file);
+                    
+                    const url = `${TELEGRAM_CONFIG.API_URL}${TELEGRAM_CONFIG.BOT_TOKEN}/${method}`;
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.ok) {
+                        console.error(`Ошибка отправки файла ${file.name}:`, data);
+                        return false;
+                    }
+                    
+                    console.log(`Файл ${file.name} отправлен успешно`);
+                    return true;
+                    
+                } catch (error) {
+                    console.error(`Ошибка отправки файла ${file.name}:`, error);
+                    return false;
+                }
+            }
+            
+            // ========== TELEGRAM ЧАТ СИСТЕМА ==========
+            
+            // Инициализация чата
+            function initTelegramChat(user) {
+                // Загружаем историю сообщений
+                telegramMessages = JSON.parse(localStorage.getItem(`telegram_chat_${user.id}`)) || [
+                    { type: 'admin', text: '👋 Привет! Я твой бот-помощник', time: new Date().toLocaleTimeString() },
+                    { type: 'admin', text: 'Напиши свой вопрос, и я перешлю его админу @vipkotax', time: new Date().toLocaleTimeString() }
+                ];
+                
+                renderTelegramMessages();
+                checkTelegramCooldown();
+                
+                // Настраиваем обработчики
+                document.getElementById('telegramChatButton').addEventListener('click', toggleTelegramChat);
+                document.getElementById('closeTelegramChat').addEventListener('click', closeTelegramChat);
+                document.getElementById('sendTelegramMessage').addEventListener('click', sendTelegramMessage);
+                document.getElementById('telegramMessageInput').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') sendTelegramMessage();
+                });
+                
+                // Проверяем кулдаун при фокусе на поле ввода
+                document.getElementById('telegramMessageInput').addEventListener('focus', checkTelegramCooldown);
+            }
+            
+            // Открыть/закрыть чат
+            function toggleTelegramChat() {
+                telegramChatOpen = !telegramChatOpen;
+                if (telegramChatOpen) {
+                    document.getElementById('telegramChatWidget').style.display = 'flex';
+                    // Скрываем уведомление при открытии чата
+                    document.getElementById('telegramNotification').style.display = 'none';
+                    checkTelegramCooldown();
+                } else {
+                    closeTelegramChat();
+                }
+            }
+            
+            function closeTelegramChat() {
+                telegramChatOpen = false;
+                document.getElementById('telegramChatWidget').style.display = 'none';
+            }
+            
+            // Отправить сообщение
+            async function sendTelegramMessage() {
+                const input = document.getElementById('telegramMessageInput');
+                const messageText = input.value.trim();
+                
+                if (!messageText) return;
+                
+                // Проверка кулдауна
+                if (telegramCooldownEnd > Date.now()) {
+                    alert('Пожалуйста, подождите перед отправкой следующего сообщения.');
+                    checkTelegramCooldown();
+                    return;
+                }
+                
+                const user = getUserData();
+                if (!user) {
+                    alert('Пожалуйста, войдите в систему.');
+                    return;
+                }
+                
+                // Добавляем сообщение пользователя
+                const message = {
+                    type: 'user',
+                    text: messageText,
+                    time: new Date().toLocaleTimeString(),
+                    timestamp: Date.now()
+                };
+                
+                telegramMessages.push(message);
+                saveTelegramMessages(user.id);
+                renderTelegramMessages();
+                
+                // Очищаем поле ввода
+                input.value = '';
+                
+                // Устанавливаем кулдаун 20 секунд
+                startTelegramCooldown(20);
+                
+                // Отправляем сообщение в Telegram админу
+                const sent = await sendMessageToTelegramAdmin(user, messageText);
+                
+                if (sent) {
+                    showSuccessNotification("✅ Сообщение отправлено админу!");
+                    
+                    // Показываем индикатор "админ печатает"
+                    showAdminTyping();
+                    
+                    // Симулируем ответ админа через 5-15 секунд
+                    setTimeout(() => {
+                        simulateAdminReply(user.id, messageText);
+                    }, 5000 + Math.random() * 10000);
+                }
+            }
+            
+            // Отправить сообщение админу в Telegram
+            async function sendMessageToTelegramAdmin(user, messageText) {
+                if (!TELEGRAM_CONFIG.BOT_TOKEN || !TELEGRAM_CONFIG.ADMIN_CHAT_ID) {
+                    console.warn('Токен бота или chat_id не настроены!');
+                    alert('⚠️ Токен бота не настроен! Сообщение не отправлено.');
+                    return false;
+                }
+                
+                try {
+                    const message = `
+📨 НОВОЕ СООБЩЕНИЕ С САЙТА
+
+👤 Пользователь: ${user.username}
+🆔 ID: ${user.id}
+📝 Сообщение: ${messageText}
+🕐 Время: ${new Date().toLocaleString()}
+
+💬 Для ответа пользователю используйте команду:
+/reply_${user.id} ваш ответ здесь
+                    `.trim();
+                    
+                    const url = `${TELEGRAM_CONFIG.API_URL}${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`;
+                    const params = new URLSearchParams({
+                        chat_id: TELEGRAM_CONFIG.ADMIN_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    });
+                    
+                    const response = await fetch(`${url}?${params}`);
+                    const data = await response.json();
+                    
+                    if (data.ok) {
+                        console.log('Сообщение отправлено админу в Telegram');
+                        return true;
+                    } else {
+                        console.error('Ошибка отправки в Telegram:', data);
+                        alert('Ошибка отправки сообщения. Попробуйте позже.');
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Ошибка сети:', error);
+                    alert('Ошибка сети. Проверьте интернет-соединение.');
+                    return false;
+                }
+            }
+            
+            // Система кулдауна для чата
+            function startTelegramCooldown(seconds) {
+                telegramCooldownEnd = Date.now() + seconds * 1000;
+                localStorage.setItem('telegram_cooldown', telegramCooldownEnd);
+                
+                document.getElementById('sendTelegramMessage').disabled = true;
+                document.getElementById('telegramCooldown').style.display = 'block';
+                
+                if (telegramCooldownInterval) {
+                    clearInterval(telegramCooldownInterval);
+                }
+                
+                telegramCooldownInterval = setInterval(updateTelegramCooldown, 1000);
+                updateTelegramCooldown();
+            }
+            
+            function checkTelegramCooldown() {
+                const savedCooldown = localStorage.getItem('telegram_cooldown');
+                if (savedCooldown) {
+                    telegramCooldownEnd = parseInt(savedCooldown);
+                    if (telegramCooldownEnd > Date.now()) {
+                        startTelegramCooldown(Math.ceil((telegramCooldownEnd - Date.now()) / 1000));
+                    } else {
+                        resetTelegramCooldown();
+                    }
+                }
+            }
+            
+            function updateTelegramCooldown() {
+                const now = Date.now();
+                if (telegramCooldownEnd > now) {
+                    const secondsLeft = Math.ceil((telegramCooldownEnd - now) / 1000);
+                    document.getElementById('telegramCooldownTimer').textContent = secondsLeft;
+                } else {
+                    resetTelegramCooldown();
+                }
+            }
+            
+            function resetTelegramCooldown() {
+                telegramCooldownEnd = 0;
+                localStorage.removeItem('telegram_cooldown');
+                document.getElementById('sendTelegramMessage').disabled = false;
+                document.getElementById('telegramCooldown').style.display = 'none';
+                
+                if (telegramCooldownInterval) {
+                    clearInterval(telegramCooldownInterval);
+                    telegramCooldownInterval = null;
+                }
+            }
+            
+            // Симулировать ответ админа (для демо)
+            function simulateAdminReply(userId, userMessage) {
+                const adminResponses = [
+                    "Спасибо за обращение! Я уже изучаю ваш запрос.",
+                    "Интересный вопрос! Думаю над ответом...",
+                    "Ваш запрос принят в обработку. Ожидайте ответ в течение 24 часов.",
+                    "Спасибо за сообщение! Я скоро отвечу.",
+                    "Получил ваше сообщение. В ближайшее время дам развернутый ответ!"
+                ];
+                
+                const response = adminResponses[Math.floor(Math.random() * adminResponses.length)];
+                
+                telegramMessages.push({
+                    type: 'admin',
+                    text: response,
+                    time: new Date().toLocaleTimeString(),
+                    timestamp: Date.now()
+                });
+                
+                saveTelegramMessages(userId);
+                renderTelegramMessages();
+                
+                // Уведомление
+                if (!telegramChatOpen) {
+                    showTelegramNotification();
+                }
+                
+                // Скрываем индикатор печатания
+                document.getElementById('telegramTyping').style.display = 'none';
+            }
+            
+            // Показать индикатор печатания
+            function showAdminTyping() {
+                const typingElement = document.getElementById('telegramTyping');
+                typingElement.style.display = 'block';
+                
+                if (telegramTypingTimeout) {
+                    clearTimeout(telegramTypingTimeout);
+                }
+                
+                telegramTypingTimeout = setTimeout(() => {
+                    typingElement.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Показать уведомление
+            function showTelegramNotification() {
+                const notification = document.getElementById('telegramNotification');
+                let count = parseInt(notification.textContent) || 0;
+                count++;
+                notification.textContent = count;
+                notification.style.display = 'flex';
+                
+                // Вибро-эффект
+                notification.style.animation = 'none';
+                setTimeout(() => {
+                    notification.style.animation = 'vibrate 0.3s linear';
+                }, 10);
+            }
+            
+            // Сохранить историю сообщений
+            function saveTelegramMessages(userId) {
+                localStorage.setItem(`telegram_chat_${userId}`, JSON.stringify(telegramMessages));
+            }
+            
+            // Отобразить сообщения
+            function renderTelegramMessages() {
+                const messagesContainer = document.getElementById('telegramMessages');
+                messagesContainer.innerHTML = '';
+                
+                telegramMessages.forEach(msg => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `chat-message message-${msg.type}`;
+                    messageDiv.innerHTML = `
+                        <div>${msg.text}</div>
+                        <div class="message-time">${msg.time}</div>
+                    `;
+                    messagesContainer.appendChild(messageDiv);
+                });
+                
+                // Прокрутка вниз
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // Анимация для уведомления
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes vibrate {
+                    0% { transform: translate(0, 0); }
+                    25% { transform: translate(2px, -2px); }
+                    50% { transform: translate(-2px, 2px); }
+                    75% { transform: translate(2px, 2px); }
+                    100% { transform: translate(0, 0); }
+                }
+                
+                .fa-spin {
+                    animation: fa-spin 1s infinite linear;
+                }
+                
+                @keyframes fa-spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
             
             // Инициализация при загрузке страницы
             let user = getUserData();
